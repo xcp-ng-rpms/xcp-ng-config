@@ -1,6 +1,6 @@
 Name:           xcp-ng-config
 Version:        0
-Release:        1%{?dist}
+Release:        1~yd.4%{?dist}
 
 Summary:        XCP-ng configuration files
 Group:          System Environment/Base
