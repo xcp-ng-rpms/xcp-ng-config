@@ -14,13 +14,13 @@ XCP-ng configuration files
 
 %install
 # mask stunnel.service, we use only stunnel@xapi.service
-install -d -m755 %{buildroot}%{_prefix}/etc/systemd/system
-ln -s /dev/null %{buildroot}%{_prefix}/etc/systemd/system/stunnel.service
+install -d -m755 %{buildroot}%{_sysconfdir}/systemd/system
+ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/stunnel.service
 
 # mask sshd.socket, we use only sshd.service: having both enabled makes them
 # conflict, which prevents ssh from being reliably available at boot when
 # configured in xapi
-ln -s /dev/null %{buildroot}%{_prefix}/etc/systemd/system/sshd.socket
+ln -s /dev/null %{buildroot}%{_sysconfdir}/systemd/system/sshd.socket
 
 # enable persistent systemd journal
 install -d -m755 %{buildroot}/var/log/journal
@@ -103,13 +103,15 @@ EOF
 %config(noreplace) %{_sysconfdir}/ssh/sshd_config.d/00-custom.conf
 %config %{_sysconfdir}/ssh/sshd_config.d/30-xcpng.conf
 %config(noreplace) %{_sysconfdir}/systemd/journald.conf.d/90-custom.conf
+%{_sysconfdir}/systemd/system/sshd.socket
+%{_sysconfdir}/systemd/system/stunnel.service
 %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-xcpng9
 %{_sysconfdir}/yum.repos.d/
 %{_prefix}/lib/systemd/
 /var/log/journal/
 
 %changelog
-* Web Nov 25 2026 Yann Dirson <yann.dirson@vates.tech> - 0-2
+* Fri Nov 27 2026 Yann Dirson <yann.dirson@vates.tech> - 0-2
 - mask stunnel.service
 - mask sshd.socket
 
